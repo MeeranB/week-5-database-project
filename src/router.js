@@ -1,16 +1,13 @@
-const handlers = require("./handlers");
+const homeHandler = require("./handlers/home");
+const miscHandler = require("./handlers/misc");
 
 function router(request, response) {
   const { url } = request;
   if (url === "/") {
-    handlers.home(request, response);
-  } else if (url === "/new-user") {
-    handlers.newUser(request, response);
-  } else if (url === "/create-user") {
-    handlers.createUser(request, response);
+    console.log("correctly routed")
+    homeHandler(request, response);
   } else {
-    response.writeHead(404, { "content-type": "text/html" });
-    response.end(`<h1>Not found</h1>`);
+    miscHandler(request, response);
   }
 }
 
