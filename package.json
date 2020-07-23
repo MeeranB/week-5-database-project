@@ -18,6 +18,7 @@
   "homepage": "https://github.com/FACed-Off/week-5-database-project#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "env2": "^2.2.2",
     "nodemon": "^2.0.4",
     "pg": "^8.3.0"
   }

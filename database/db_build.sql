@@ -2,8 +2,6 @@ BEGIN;
 
 DROP TABLE IF EXISTS users, posts, keywords CASCADE;
 
-
-
 CREATE TABLE keywords (
     id SERIAL PRIMARY KEY,
     keyword_name VARCHAR(50)
@@ -39,6 +37,5 @@ INSERT INTO posts (user_id, text_content) VALUES
 (2,'Shoots concussive energy bursts from her hands'),
 (3,'Announcing of invitation principles in')
 ; 
-
 
 COMMIT;
