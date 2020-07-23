@@ -18,6 +18,11 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  color: white;
+  text-align: center;
+}
+
 .split {
   height: 100%;
   width: 50%;
@@ -30,12 +35,12 @@ h1 {
 
 .form-left {
   left: 0;
-  padding: 100px;
+  background: white;
 }
 
 .post-right {
   right: 0;
-  padding: 100px;
+  background: rgb(0, 1, 37);
 }
 
 .centered {
@@ -96,7 +101,7 @@ h1 {
   color: white;
   font-size: 12px;
 }
-.search-box form a {
+.search-box form button {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
@@ -108,7 +113,7 @@ h1 {
   transition: 0.5s;
   letter-spacing: 4px;
 }
-.search-box a:hover {
+.search-box button:hover {
   background: #03e9f4;
   color: #fff;
   border-radius: 5px;
@@ -116,12 +121,12 @@ h1 {
     0 0 100px #03e9f4;
 }
 
-.search-box a span {
+.search-box button span {
   position: absolute;
   display: block;
 }
 
-.search-box a span:nth-child(1) {
+.search-box button span:nth-child(1) {
   top: 0;
   left: -100%;
   width: 100%;
@@ -140,7 +145,7 @@ h1 {
   }
 }
 
-.search-box a span:nth-child(2) {
+.search-box button span:nth-child(2) {
   top: -100%;
   right: 0;
   width: 2px;
@@ -160,7 +165,7 @@ h1 {
   }
 }
 
-.search-box a span:nth-child(3) {
+.search-box button span:nth-child(3) {
   bottom: 0;
   right: -100%;
   width: 100%;
@@ -180,7 +185,7 @@ h1 {
   }
 }
 
-.search-box a span:nth-child(4) {
+.search-box button span:nth-child(4) {
   bottom: -100%;
   left: 0;
   width: 2px;
