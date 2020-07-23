@@ -7,6 +7,7 @@ function databaseHandler(request, response) {
         response.writeHead(500, { "Content-Type": "index/html" });
         response.end("<h1>Server Error</h1>");
       }
+      console.log("database built");
       response.end(file);
     });
   }
