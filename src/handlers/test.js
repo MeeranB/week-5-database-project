@@ -3,46 +3,54 @@ const fs = require("fs");
 const dbConnection = require("../../database/db_connection");
 
 function testHandler(request, response) {
+  console.log("test handler reached");
+  response.writeHead(200, {"content-type": "text/html"});
   let body = "";
   request.on("data", chunk => {
-    console.log(chunk);
     body += chunk;
   });
   request.on("end", () => {
-    console.log(body);
-    console.log(request);
-  });
+    const formObject = JSON.parse(body);
+    console.log(formObject);
+    const user = formObject.user;
+    const keyword = formObject.keyword;
+    const message = formObject.message;
+    getData((err, res) => {
+      if (err) return console.log(err);
+      const dynamicData = JSON.stringify(res);
+      console.log(res);
+      response.writeHead(200, { 'content-type': 'application/json' });
+      response.end(dynamicData);
+      console.log(response.body);
+    });
+ })
 }
-//   response.writeHead(200, { "content-type": "text/html" });
-//   console.log("test handler reached")
+
+function getData(cb) {
+  console.log("getData function reached")
+  dbConnection.query('SELECT * FROM Users;', (err, res) => {
+    if (err) return cb(err);
+    console.log('res.rows: ' + res.rows);
+    cb(null, res.rows);
+  })
+}
+
+module.exports = testHandler;
+
 //   postData((err) => {
-//       if (err) return console.log(err);
-//   });
+//     if (err) return console.log(err);
+//   }, user);
 //   getData((err, res) => {
 //     if (err) return console.log(err);
-//     let dynamicData = JSON.stringify(res);
-//     response.writeHead(200, { 'content-type': 'application/json' });
-//     response.end(dynamicData);
+//     console.log(res);
 //   });
 // }
   
-// const postData = (cb) => {
-//     console.log("postData function reached")
-//     dbConnection.query(`INSERT INTO users (username, keyword_id) VALUES ('but23', 3)`, (err, res) => {
+// function postData(cb, user) {
+//     dbConnection.query(`INSERT INTO users (username) VALUES (${user})`, (err, res) => {
 //       if (err) return cb(err);
 //       console.log(res);
 //       console.log('res.rows: ' + res.rows);
 //       cb(null, res.rows);
 //     });
 // };
-
-// const getData = (cb) => {
-//     console.log("getData function reached")
-//     dbConnection.query('SELECT * FROM Users;', (err, res) => {
-//       if (err) return cb(err);
-//       console.log('res.rows: ' + res.rows);
-//       cb(null, res.rows);
-//     });
-// };
-
-module.exports = testHandler;

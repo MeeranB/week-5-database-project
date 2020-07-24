@@ -9,7 +9,7 @@ function router(request, response) {
   if (url === "/") {
     console.log("correctly routed")
     homeHandler(request, response);
-  } else if (url.startsWith("/test")) {
+  } else if (url.endsWith("/test")) {
     testHandler(request, response);
   } else if (url.startsWith("/database")){
     databaseHandler(request, response);
