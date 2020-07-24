@@ -15,7 +15,8 @@ const options = {
   max: process.env.DB_MAX_CONNECTIONS || 2,
   user: username,
   password,
-  ssl: params.hostname !== "localhost",
+  // ssl: params.hostname !== "localhost",
+  ssl: {rejectUnauthorized: false}
 };
 
 module.exports = new Pool(options);
