@@ -15,7 +15,8 @@ const logsubmit = (event) => {
             message : messageInput
         })
     }).then((response) => {
-        console.log(response)
+        return response.json();
+    }).then((db) => {
+        console.log(db);
     })
-
 }

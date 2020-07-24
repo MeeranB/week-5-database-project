@@ -11,17 +11,15 @@ function testHandler(request, response) {
   });
   request.on("end", () => {
     const formObject = JSON.parse(body);
-    console.log(formObject);
+    console.log("formObject: " + formObject);
     const user = formObject.user;
     const keyword = formObject.keyword;
     const message = formObject.message;
     getData((err, res) => {
       if (err) return console.log(err);
       const dynamicData = JSON.stringify(res);
-      console.log(res);
       response.writeHead(200, { 'content-type': 'application/json' });
       response.end(dynamicData);
-      console.log(response.body);
     });
  })
 }
