@@ -4,26 +4,28 @@ const dbConnection = require("../../database/db_connection");
 
 function testHandler(request, response) {
   console.log("test handler reached");
-  response.writeHead(200, {"content-type": "text/html"});
   let body = "";
   request.on("data", chunk => {
     body += chunk;
+    console.log(chunk);
   });
   request.on("end", () => {
-    const formObject = JSON.parse(body);
-    console.log("formObject: " + formObject);
-    const user = formObject.user;
-    const keyword = formObject.keyword;
-    const message = formObject.message;
-    dbConnection.query('SELECT * FROM Users;')
-    .then(res => {
-      const dynamicData = JSON.stringify(res);
-      response.writeHead(200, { 'content-type': 'application/json' });
-      response.end(dynamicData);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+    console.log(body);
+    response.end(`end`);
+  //   const formObject = JSON.parse(body);
+  //   console.log("formObject: " + formObject);
+  //   const user = formObject.user;
+  //   const keyword = formObject.keyword;
+  //   const message = formObject.message;
+  //   dbConnection.query('SELECT * FROM Users;')
+  //   .then(res => {
+  //     const dynamicData = JSON.stringify(res);
+  //     response.writeHead(200, { 'content-type': 'application/json' });
+  //     response.end(dynamicData);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   })
  })
 }
 
