@@ -15,22 +15,16 @@ function testHandler(request, response) {
     const user = formObject.user;
     const keyword = formObject.keyword;
     const message = formObject.message;
-    getData((err, res) => {
-      if (err) return console.log(err);
+    dbConnection.query('SELECT * FROM Users;')
+    .then(res => {
       const dynamicData = JSON.stringify(res);
       response.writeHead(200, { 'content-type': 'application/json' });
       response.end(dynamicData);
-    });
+    })
+    .catch(err => {
+      console.log(err);
+    })
  })
-}
-
-function getData(cb) {
-  console.log("getData function reached")
-  dbConnection.query('SELECT * FROM Users;', (err, res) => {
-    if (err) return cb(err);
-    console.log('res.rows: ' + res.rows);
-    cb(null, res.rows);
-  })
 }
 
 module.exports = testHandler;
