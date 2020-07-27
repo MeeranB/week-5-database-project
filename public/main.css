@@ -111,12 +111,17 @@ h2 {
 
 .search-box .input-box .radio-button {
   display: flex;
+  margin-left: -50px;
 }
 
 .search-box .input-box .radio-button .color-label {
   display: contents;
   transition: none;
   font-size: 16px;
+}
+
+.search-box .input-box .radio-button .color {
+  margin-left: 60px;
 }
 
 .search-box form button {
