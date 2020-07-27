@@ -14,15 +14,17 @@ function testHandler(request, response) {
     const data = new URLSearchParams(body);
     console.log(data);
     const form = Object.fromEntries(data);
-    const values = [form.userInput]
-    dbConnection.query(`INSERT INTO users (username) VALUES ($1)`, values)
-    // .then(dbConnection.query(`SELECT * FROM users`))
-    .then(res => {
-      const userTable = JSON.stringify(res);
-      console.log(userTable);
-      response.writeHead(200, {'content-type': 'application/json'});
-      response.end(userTable);
-    })
+    const values = [form.userInput, form.keyInput]
+    dbConnection.query(`INSERT INTO users (username, keyword_id) VALUES ($1, $2)`, values)
+    .then(res =>
+      dbConnection.query(`SELECT * FROM users`)
+      .then(res => {
+        const userTable = JSON.stringify(res.rows);
+        console.log(userTable);
+        response.writeHead(200, {'content-type': 'application/json'});
+        response.end(userTable);
+      })
+    )
     .catch(err => {
       console.log(err);
     })
