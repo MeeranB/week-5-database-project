@@ -101,6 +101,24 @@ h2 {
   color: white;
   font-size: 12px;
 }
+
+/* .search-box .input-box .color-label {
+  width: 100%;
+  background: rgb(0, 29, 37);
+  color: white;
+  position: relative;
+} */
+
+.search-box .input-box .radio-button {
+  display: flex;
+}
+
+.search-box .input-box .radio-button .color-label {
+  display: contents;
+  transition: none;
+  font-size: 16px;
+}
+
 .search-box form button {
   position: relative;
   display: inline-block;
