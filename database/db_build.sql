@@ -18,6 +18,7 @@ CREATE TABLE posts (
     user_id INTEGER REFERENCES users(id),
     text_content VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    
 );
 
 INSERT INTO keywords (keyword_name) VALUES
@@ -27,9 +28,10 @@ INSERT INTO keywords (keyword_name) VALUES
 ; 
 
 INSERT INTO users (username, keyword_id) VALUES
-('bunnt23', 3),
+('bunnt23', 1),
 ('sdfsdgesg', 2),
-('grgrDSDA', 1)
+('grgrDSDA', 3)
+('sddfsadfsdg', 4)
 ; 
 
 INSERT INTO posts (user_id, text_content) VALUES

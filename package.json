@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start" : "node src/server.js",
+    "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
   "repository": {
@@ -19,7 +19,6 @@
   "homepage": "https://github.com/FACed-Off/week-5-database-project#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "env2": "^2.2.2",
     "nodemon": "^2.0.4",
     "pg": "^8.3.0"
   }
