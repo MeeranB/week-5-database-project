@@ -11,21 +11,21 @@ function testHandler(request, response) {
   });
   request.on("end", () => {
     console.log(body);
-    response.end(`end`);
-  //   const formObject = JSON.parse(body);
-  //   console.log("formObject: " + formObject);
-  //   const user = formObject.user;
-  //   const keyword = formObject.keyword;
-  //   const message = formObject.message;
-  //   dbConnection.query('SELECT * FROM Users;')
-  //   .then(res => {
-  //     const dynamicData = JSON.stringify(res);
-  //     response.writeHead(200, { 'content-type': 'application/json' });
-  //     response.end(dynamicData);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   })
+    const data = new URLSearchParams(body);
+    console.log(data);
+    const form = Object.fromEntries(data);
+    const values = [form.userInput]
+    dbConnection.query(`INSERT INTO users (username) VALUES ($1)`, values)
+    // .then(dbConnection.query(`SELECT * FROM users`))
+    .then(res => {
+      const userTable = JSON.stringify(res);
+      console.log(userTable);
+      response.writeHead(200, {'content-type': 'application/json'});
+      response.end(userTable);
+    })
+    .catch(err => {
+      console.log(err);
+    })
  })
 }
 
