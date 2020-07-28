@@ -31,7 +31,6 @@ INSERT INTO users (username, keyword_id) VALUES
 ('bunnt23', 1),
 ('sdfsdgesg', 2),
 ('grgrDSDA', 3)
-('sddfsadfsdg', 4)
 ; 
 
 INSERT INTO posts (user_id, text_content) VALUES

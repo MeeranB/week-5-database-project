@@ -25,8 +25,6 @@ function outputPostsHandler(request, response) {
         </li>
       `
       );
-      //console.log(postsList);
-
       response.writeHead(200, { "content-type": "text/html" });
       response.end(`<ul>${postsList.join("")}</ul>`);
     });

@@ -14,7 +14,12 @@ function testHandler(request, response) {
     const data = new URLSearchParams(body);
     console.log(data);
     const form = Object.fromEntries(data);
-    const values = [form.userInput, form.keyInput];
+    const keywordMap = {
+      red: 1,
+      green: 2,
+      blue: 3
+    }
+    const values = [form.userInput, keywordMap[form.colorInput]];
     dbConnection
       .query(`INSERT INTO users (username, keyword_id) VALUES ($1, $2)`, values)
       .then((res) =>
