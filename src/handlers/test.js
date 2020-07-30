@@ -1,6 +1,5 @@
-const http = require("http");
-const fs = require("fs");
 const dbConnection = require("../../database/db_connection");
+const templates = require("../../public/templates")
 
 function testHandler(request, response) {
   console.log("test handler reached");
@@ -19,15 +18,22 @@ function testHandler(request, response) {
       green: 2,
       blue: 3
     }
-    const values = [form.userInput, keywordMap[form.colorInput]];
+    const values = [
+      form.userInput, 
+      keywordMap[form.colorInput],
+    ];
     dbConnection
       .query(`INSERT INTO users (username, keyword_id) VALUES ($1, $2)`, values)
-      .then((res) =>
-        dbConnection.query(`SELECT * FROM users`).then((res) => {
-          const userTable = JSON.stringify(res.rows);
-          console.log(userTable);
-          response.writeHead(200, { "content-type": "application/json" });
-          response.end(userTable);
+      .then(() =>
+        dbConnection.query(`
+          SELECT users.username, posts.text_content
+          FROM posts RIGHT JOIN users
+          ON users.id = posts.user_id
+          ORDER BY users.id;
+        `)
+        .then((res) => {
+          response.writeHead(200, { "content-type": "text/html" });
+          response.end(templates.submit(res.rows))
         })
       )
       .catch((err) => {
@@ -37,24 +43,6 @@ function testHandler(request, response) {
 }
 
 module.exports = testHandler;
-
-//   postData((err) => {
-//     if (err) return console.log(err);
-//   }, user);
-//   getData((err, res) => {
-//     if (err) return console.log(err);
-//     console.log(res);
-//   });
-// }
-
-// function postData(cb, user) {
-//     dbConnection.query(`INSERT INTO users (username) VALUES (${user})`, (err, res) => {
-//       if (err) return cb(err);
-//       console.log(res);
-//       console.log('res.rows: ' + res.rows);
-//       cb(null, res.rows);
-//     });
-// };
 
 //if there is a user that areasy exists in the table  do not add to the user table
 // else we do add it to the user table
