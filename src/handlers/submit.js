@@ -6,10 +6,8 @@ function submitHandler(request, response) {
   let body = "";
   request.on("data", (chunk) => {
     body += chunk;
-    console.log(chunk);
   });
   request.on("end", () => {
-    console.log(body);
     const data = new URLSearchParams(body);
     console.log(data);
     const form = Object.fromEntries(data);

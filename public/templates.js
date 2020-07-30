@@ -95,6 +95,7 @@ function home() {
 }
 
 function submit(userPosts) {
+    console.log(userPosts);
     const postsList = userPosts.map(
         (post) => `
         <li>
