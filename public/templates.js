@@ -14,7 +14,7 @@ function home() {
         <section class="split form-left">
           <div class="entry-container centered">
             <div class="search-box">
-              <form action="/test" method="post">
+              <form action="/submit" method="post">
                 <img src="assets/logo.png" alt="database logo" />
                 <div class="input-box">
                   <input

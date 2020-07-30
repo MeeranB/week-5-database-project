@@ -1,7 +1,7 @@
 const dbConnection = require("../../database/db_connection");
 const templates = require("../../public/templates")
 
-function testHandler(request, response) {
+function submitHandler(request, response) {
   console.log("test handler reached");
   let body = "";
   request.on("data", (chunk) => {
@@ -42,7 +42,7 @@ function testHandler(request, response) {
   });
 }
 
-module.exports = testHandler;
+module.exports = submitHandler;
 
 //if there is a user that areasy exists in the table  do not add to the user table
 // else we do add it to the user table
