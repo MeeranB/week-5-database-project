@@ -9,7 +9,7 @@ CREATE TABLE keywords (
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(20) NOT NULL,
+    username VARCHAR(20) NOT NULL UNIQUE,
     keyword_id INTEGER REFERENCES keywords(id)
 );
 
