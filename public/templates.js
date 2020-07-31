@@ -1,4 +1,4 @@
-function sharedLayout (postContent = "") {
+function sharedLayout(postContent = "") {
   return `<!DOCTYPE html>
   <html lang="en">
     <head>
@@ -87,32 +87,34 @@ function sharedLayout (postContent = "") {
       <script src="app.js"></script>
     </body>
   </html>    
-  `
+  `;
 }
 
 function home() {
-    return sharedLayout("");
+  return sharedLayout("");
 }
 
 function submit(userPosts) {
-    //userPosts is the res.rows array of a db query
-    console.log(userPosts);
-    const postsList = userPosts.map(
-        (post) => `
+  //userPosts is the res.rows array of a db query
+  console.log(userPosts);
+  const postsList = userPosts.map(
+    (post) => `
         <li>
             <p>${post.text_content}</p>
             <div>${post.username}</p>
+            <p>${post.created_at}</p>
+            <p>__________________</p>
         </li>
         `
-    );
-    return sharedLayout(`
+  );
+  return sharedLayout(`
       <div class="post-output">
         <ul>${postsList.join("")}</ul>
       </div>
-    `)
+    `);
 }
 
-module.exports = { 
-    home,
-    submit
-}
+module.exports = {
+  home,
+  submit,
+};
