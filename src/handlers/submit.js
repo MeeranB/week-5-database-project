@@ -3,21 +3,41 @@ const templates = require("../../public/templates");
 const databaseMethods = require("../model")
 
 function submitHandler(request, response) {
-  console.log("test handler reached");
+  console.log("submit handler reached");
   let body = "";
   request.on("data", (chunk) => {
     body += chunk;
   });
   request.on("end", () => {
     const data = new URLSearchParams(body);
-    console.log(data);
     const form = Object.fromEntries(data);
-    if (!databaseMethods.checkUserExists(form)) {
-      databaseMethods
-        .newUser(form)
-        .newPost()
-        .showPosts()
-    }
+    console.log(`passing in the form data to database methods: ${form}`)
+    databaseMethods.checkUserID(form)
+      .then(res => {
+        if (res > 0) {
+          console.log(`user already exists`)
+          databaseMethods
+            .newPost(form, res)
+        } else {
+            console.log(`user ${form.userInput} did not previously exist`)
+            console.log(res, form)
+            databaseMethods
+              .newUser(form)
+            .then(()=> {
+              databaseMethods
+              .checkUserID(form)
+              .then(res => {
+                databaseMethods
+                  .newPost(form, res)
+              })
+            })
+        }
+      })
+      .then(() => {
+        databaseMethods.getPosts()
+          .then(res => response.end(templates.submit(res)))
+      })
+      .catch(err => console.log(err))
     response.writeHead(200, {"content-type": "text/html"})
   });
 }
