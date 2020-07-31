@@ -1,5 +1,6 @@
 const dbConnection = require("../../database/db_connection");
-const templates = require("../../public/templates")
+const templates = require("../../public/templates");
+const databaseMethods = require("../model")
 
 function submitHandler(request, response) {
   console.log("test handler reached");
@@ -11,32 +12,13 @@ function submitHandler(request, response) {
     const data = new URLSearchParams(body);
     console.log(data);
     const form = Object.fromEntries(data);
-    const keywordMap = {
-      red: 1,
-      green: 2,
-      blue: 3
+    if (!databaseMethods.checkUserExists(form)) {
+      databaseMethods
+        .newUser(form)
+        .newPost()
+        .showPosts()
     }
-    const values = [
-      form.userInput, 
-      keywordMap[form.colorInput],
-    ];
-    dbConnection
-      .query(`INSERT INTO users (username, keyword_id) VALUES ($1, $2)`, values)
-      .then(() =>
-        dbConnection.query(`
-          SELECT users.username, posts.text_content
-          FROM posts RIGHT JOIN users
-          ON users.id = posts.user_id
-          ORDER BY users.id;
-        `)
-        .then((res) => {
-          response.writeHead(200, { "content-type": "text/html" });
-          response.end(templates.submit(res.rows))
-        })
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    response.writeHead(200, {"content-type": "text/html"})
   });
 }
 
