@@ -96,7 +96,6 @@ function home() {
 
 function submit(userPosts) {
   //userPosts is the res.rows array of a db query
-  console.log(userPosts);
   const postsList = userPosts.map(
     (post) => `
         <li>

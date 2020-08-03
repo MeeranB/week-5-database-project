@@ -2,18 +2,24 @@ const dbConnection = require("../database/db_connection");
 
 function newUser(searchParams) {
   //Takes converted searchParams object and adds it to USER table
-  const keywordMap = {
-    red: 1,
-    green: 2,
-    blue: 3,
-  };
-  const values = [searchParams.userInput, keywordMap[searchParams.colorInput]];
-  return dbConnection
-    .query(`INSERT INTO users (username, keyword_id) VALUES ($1, $2)`, values)
-    .then(console.log(`new user ${values[0]} created`))
-    .catch((err) => {
-      console.log(err);
-    });
+  return checkKeywordID(searchParams)
+    .then((res) => {
+      const values = [
+        searchParams.userInput,
+        res
+      ]
+      console.log(values)
+      return values
+    })
+    .then((values) => {
+      return dbConnection
+        .query(`INSERT INTO users (username, keyword_id) VALUES ($1, $2)`, values)
+        .then(console.log(`new user ${values[0]} created with keyword_id ${values[1]}`))
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch(err => console.log(err))
 }
 
 function newPost(searchParams, ID) {
@@ -33,7 +39,7 @@ function newPost(searchParams, ID) {
     console.log(`the new user does not exist`);
     console.log("the searchParams contain:" + searchParams);
     const values = [
-      checkUserID(searchParams).then((res) => console.log(typeof res)),
+      checkUserID(searchParams),
       searchParams.messageInput,
     ];
     console.log(`the new post entry values are ${values[0]} and ${values[1]}`);
@@ -75,6 +81,18 @@ function getPosts() {
     )
     .then((res) => {
       return res.rows;
+    });
+}
+
+function checkKeywordID(searchParams) {
+  const values = [searchParams.colorInput];
+  return dbConnection
+    .query(`SELECT id FROM keywords WHERE keyword_name = $1`, values)
+    .then((res) => {
+      return res.rows[0]["id"];
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 
