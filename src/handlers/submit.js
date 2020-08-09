@@ -11,7 +11,8 @@ function submitHandler(request, response) {
   request.on("end", () => {
     const data = new URLSearchParams(body);
     const form = Object.fromEntries(data);
-    console.log(`passing in the form data to database methods: ${form}`)
+    console.log(`passing in the form data to database methods: `)
+    console.log(form)
     databaseMethods.checkUserID(form)
       .then(res => {
         if (res > 0) {
@@ -20,7 +21,6 @@ function submitHandler(request, response) {
             .newPost(form, res)
         } else {
             console.log(`user ${form.userInput} did not previously exist`)
-            console.log(res, form)
             databaseMethods
               .newUser(form)
             .then(()=> {
