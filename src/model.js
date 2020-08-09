@@ -30,7 +30,6 @@ function newPost(searchParams, ID) {
   );
   return checkKeywordID(searchParams)
     .then(postedWithKeyword => {
-      if (ID > 0) {
         const values = [
           ID,
           postedWithKeyword,
@@ -42,22 +41,8 @@ function newPost(searchParams, ID) {
             values
           )
           .catch((err) => console.log(err));
-      } else {
-        console.log(`the new user does not exist`);
-        console.log("the searchParams contain:" + searchParams);
-        const values = [
-          checkUserID(searchParams),
-          searchParams.messageInput,
-        ];
-        console.log(`the new post entry values are ${values[0]} and ${values[1]}`);
-        return dbConnection
-          .query(
-            `INSERT INTO posts (user_id, text_content) VALUES ($1, $2)`,
-            values
-          )
-          .catch((err) => console.log(err));
-      }
     })
+    .catch(err => console.log(err));
 }
 
 function checkUserID(searchParams) {
