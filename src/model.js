@@ -2,13 +2,14 @@ const dbConnection = require("../database/db_connection");
 
 function newUser(searchParams) {
   //Takes converted searchParams object and adds it to USER table
+  console.log(`new user function called with user ${searchParams.userInput}`)
   return checkKeywordID(searchParams)
     .then((res) => {
       const values = [
         searchParams.userInput,
         res
       ]
-      console.log(values)
+      console.log(`checkKeywordId found the userInput to be ${values[0]} and the keywordID to be ${values[1]}`)
       return values
     })
     .then((values) => {
