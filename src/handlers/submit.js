@@ -16,11 +16,11 @@ function submitHandler(request, response) {
     databaseMethods.checkUserID(form)
       .then(res => {
         if (res > 0) {
-          console.log(`user already exists`)
+          console.log(`user ${form.userInput} already exists`)
           databaseMethods
             .newPost(form, res)
         } else {
-            console.log(`user ${form.userInput} did not previously exist`)
+            console.log(`Run else block in submit.js as ID: ${res} is -1`)
             databaseMethods
               .newUser(form)
             .then(()=> {

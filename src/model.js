@@ -2,7 +2,7 @@ const dbConnection = require("../database/db_connection");
 
 function newUser(searchParams) {
   //Takes converted searchParams object and adds it to USER table
-  console.log(`new user function called with user ${searchParams.userInput}`)
+  console.log(`New user function called with user ${searchParams.userInput}`)
   return checkKeywordID(searchParams)
     .then((res) => {
       const values = [
@@ -26,31 +26,38 @@ function newUser(searchParams) {
 function newPost(searchParams, ID) {
   //Gets id of username posted and then adds this id + messageContent to the post table
   console.log(
-    `This new post will have user_id of ${ID} and message of ${searchParams.messageInput}`
+    `New post will have user_id: ${ID}, message: ${searchParams.messageInput}, posted_with_keyword: ${searchParams.colorInput}`
   );
-  if (ID > 0) {
-    const values = [ID, searchParams.messageInput];
-    return dbConnection
-      .query(
-        `INSERT INTO posts (user_id, text_content) VALUES ($1, $2)`,
-        values
-      )
-      .catch((err) => console.log(err));
-  } else {
-    console.log(`the new user does not exist`);
-    console.log("the searchParams contain:" + searchParams);
-    const values = [
-      checkUserID(searchParams),
-      searchParams.messageInput,
-    ];
-    console.log(`the new post entry values are ${values[0]} and ${values[1]}`);
-    return dbConnection
-      .query(
-        `INSERT INTO posts (user_id, text_content) VALUES ($1, $2)`,
-        values
-      )
-      .catch((err) => console.log(err));
-  }
+  return checkKeywordID(searchParams)
+    .then(postedWithKeyword => {
+      if (ID > 0) {
+        const values = [
+          ID,
+          postedWithKeyword,
+          searchParams.messageInput
+        ];
+        return dbConnection
+          .query(
+            `INSERT INTO posts (user_id, posted_with_keyword, text_content) VALUES ($1, $2, $3)`,
+            values
+          )
+          .catch((err) => console.log(err));
+      } else {
+        console.log(`the new user does not exist`);
+        console.log("the searchParams contain:" + searchParams);
+        const values = [
+          checkUserID(searchParams),
+          searchParams.messageInput,
+        ];
+        console.log(`the new post entry values are ${values[0]} and ${values[1]}`);
+        return dbConnection
+          .query(
+            `INSERT INTO posts (user_id, text_content) VALUES ($1, $2)`,
+            values
+          )
+          .catch((err) => console.log(err));
+      }
+    })
 }
 
 function checkUserID(searchParams) {
@@ -61,8 +68,13 @@ function checkUserID(searchParams) {
   return dbConnection
     .query(`SELECT id FROM users WHERE username = $1`, values)
     .then((res) => {
-      if (res.rows.length > 0) return res.rows[0]["id"];
-      else if (res.rows.length == 0) return -1;
+      if (res.rows.length > 0) {
+        console.log(`UserID is ${res.rows[0]["id"]}`)
+        return res.rows[0]["id"];
+      } else if (res.rows.length == 0) {
+        console.log(`UserID of ${searchParams.userInput} not found, returning ID as -1`)
+        return -1;
+      }
     })
     .catch((err) => {
       console.log(err);
