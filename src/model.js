@@ -105,6 +105,7 @@ function getPosts() {
 /* TODO: Alternate better(?) Highlighting process */
 // This approach has significantly fewer sql queries, however requires an extra column to be created
 //Add new column to posts table which represents if highlight is true, using bit datatype
+//Add highlighting decision to newPost model
 //Get posts gets username, text_content, highlight and created_at
 //In templates, for each object in get posts array:
 //if highlight property is true, map to highlighted html string
