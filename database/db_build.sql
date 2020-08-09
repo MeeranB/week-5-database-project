@@ -17,6 +17,7 @@ CREATE TABLE posts (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
     posted_with_keyword INTEGER NOT NULL REFERENCES keywords(id),
+    highlight BIT,
     text_content VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     
