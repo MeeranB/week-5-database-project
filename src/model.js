@@ -30,17 +30,21 @@ function newPost(searchParams, ID) {
   );
   return checkKeywordID(searchParams)
     .then(postedWithKeyword => {
-        const values = [
+        return values = [
           ID,
           postedWithKeyword,
           searchParams.messageInput
         ];
-        return dbConnection
-          .query(
-            `INSERT INTO posts (user_id, posted_with_keyword, text_content) VALUES ($1, $2, $3)`,
-            values
-          )
-          .catch((err) => console.log(err));
+    })
+    .then(values => {
+      console.log(`New post values are actually: `);
+      console.log(values);
+      return dbConnection
+      .query(
+        `INSERT INTO posts (user_id, posted_with_keyword, text_content) VALUES ($1, $2, $3)`,
+        values
+      )
+      .catch((err) => console.log(err));
     })
     .catch(err => console.log(err));
 }
@@ -64,6 +68,10 @@ function checkUserID(searchParams) {
     .catch((err) => {
       console.log(err);
     });
+}
+
+function highlightCheck(searchParams) {
+  //returns 1 if highlight is true, 0 if highlight is false
 }
 
 function checkKeywordID(searchParams) {
@@ -90,6 +98,7 @@ function getPosts() {
         `
     )
     .then((res) => {
+      console.log(res.rows)
       return res.rows;
     });
 }
