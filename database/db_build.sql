@@ -16,7 +16,7 @@ CREATE TABLE users (
 CREATE TABLE posts (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
-    posted_with_keyword INTEGER REFERENCES keywords(id)
+    posted_with_keyword INTEGER REFERENCES keywords(id),
     text_content VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     
@@ -32,8 +32,8 @@ INSERT INTO users (username, keyword_id) VALUES
 ('My first user', 1)
 ; 
 
-INSERT INTO posts (user_id, text_content) VALUES
-(1,'My first post')
+INSERT INTO posts (user_id, posted_with_keyword, text_content) VALUES
+(1,1,'My first post')
 ; 
 
 COMMIT;
