@@ -10,19 +10,19 @@ if (!process.env.DATABASE_URL)
 const params = url.parse(process.env.DATABASE_URL);
 const [username, password] = params.auth.split(":");
 
-// const options = {
-//   host: params.hostname,
-//   port: params.port,
-//   database: params.pathname.split("/")[1],
-//   max: process.env.DB_MAX_CONNECTIONS || 2,
-//   user: username,
-//   password,
-//   // ssl: params.hostname !== "localhost",
-//   ssl: { rejectUnauthorized: false },
-// };
+const options = {
+  host: params.hostname,
+  port: params.port,
+  database: params.pathname.split("/")[1],
+  max: process.env.DB_MAX_CONNECTIONS || 2,
+  user: username,
+  password,
+  // ssl: params.hostname !== "localhost",
+  ssl: { rejectUnauthorized: false },
+};
 
-// module.exports = new Pool(options);
+module.exports = new Pool(options);
 
-module.exports = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+// module.exports = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+// });
