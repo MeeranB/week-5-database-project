@@ -11,31 +11,39 @@ function submitHandler(request, response) {
   request.on("end", () => {
     const data = new URLSearchParams(body);
     const form = Object.fromEntries(data);
-    console.log(`passing in the form data to database methods: ${form}`)
+    console.log(`passing in the form data to database methods: `)
+    console.log(form)
     databaseMethods.checkUserID(form)
-      .then(res => {
-        if (res > 0) {
-          console.log(`user already exists`)
+      .then(userID => {
+        if (userID > 0) {
+          console.log(`user ${form.userInput} already exists`)
           databaseMethods
-            .newPost(form, res)
+            .newPost(form, userID)
+            .then(() => {
+              databaseMethods.getPosts()
+                .then(res => response.end(templates.submit(res)))
+            })
         } else {
-            console.log(`user ${form.userInput} did not previously exist`)
-            console.log(res, form)
+            console.log(`Run else block in submit.js as ID: ${userID} is -1`)
             databaseMethods
               .newUser(form)
             .then(()=> {
               databaseMethods
               .checkUserID(form)
-              .then(res => {
+              .then(newUserID => {
+                console.log(`new post method is accepting: `)
+                console.log(form)
                 databaseMethods
-                  .newPost(form, res)
+                  .newPost(form, newUserID)
+                  .then(() => {
+                    databaseMethods.getPosts()
+                      .then(res => {
+                        response.end(templates.submit(res))
+                      })
+                  })
               })
             })
         }
-      })
-      .then(() => {
-        databaseMethods.getPosts()
-          .then(res => response.end(templates.submit(res)))
       })
       .catch(err => console.log(err))
     response.writeHead(200, {"content-type": "text/html"})
